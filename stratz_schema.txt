@@ -1,0 +1,819 @@
+
+type DotaQuery
+  match(id: Long!): MatchType
+  matches(ids: [Long]!): [MatchType]
+  player(steamAccountId: Long!): PlayerType
+  players(steamAccountIds: [Long]!): [PlayerType]
+  team(teamId: Int!): TeamType
+  teams(teamIds: [Int]!): [TeamType]
+  league(id: Int!): LeagueType
+  leagues(request: LeagueRequestType!): [LeagueType]
+  guild(id: Int!): GuildType
+  yogurt(): YogurtQuery
+  plus(): PlusQuery
+  stratz(): StratzQuery
+  heroStats(): HeroStatsQuery
+  constants(): ConstantQuery
+  leaderboard(): LeaderboardQuery
+  live(): LiveQuery
+  vendor(): VendorQuery
+
+type LeagueBattlePassType
+  count(): Int
+  average(): Int
+
+type LeagueDpcPositionStatObjectType
+  position(): MatchPlayerPositionType
+  matchCount(): Int
+  avgKills(): Float
+  avgDeaths(): Float
+  avgAssists(): Float
+
+type LeagueMetaDetailType
+  heroId(): Short
+  winCount(): Int
+  lossCount(): Int
+  winRate(): Decimal
+  pickRate(): Decimal
+  pickCount(): Int
+  banRate(): Decimal
+  banCount(): Int
+
+type LeagueMetaType
+  leagueId(): Int
+  bestRecord(): LeagueMetaDetailType
+  mostPicked(): LeagueMetaDetailType
+  mostBanned(): LeagueMetaDetailType
+  missingMatchCount(): Int
+  totalMatchCount(): Int
+  league(): LeagueType
+
+type LeagueNodeGroupType
+  id(): Short
+  name(): String
+  parentNodeGroupId(): Short
+  advancingNodeGroupId(): Short
+  advancingTeamCount(): Byte
+  teamCount(): Byte
+  defaultNodeType(): LeagueNodeDefaultGroupEnum
+  nodeGroupType(): LeagueNodeGroupTypeEnum
+  round(): Byte
+  maxRounds(): Byte
+  isTieBreaker(): Boolean
+  isFinalGroup(): Boolean
+  isCompleted(): Boolean
+  phase(): Byte
+  region(): Byte
+  startDate(): Long
+  endDate(): Long
+  secondaryAdvancingNodeGroupId(): Short
+  secondaryAdvancingTeamCount(): Byte
+  tertiaryAdvancingNodeGroupId(): Short
+  tertiaryAdvancingTeamCount(): Byte
+  eliminationDPCPoints(): Int
+  nodes(): [LeagueNodeType]
+
+type LeagueNodeType
+  nodeGroupId(): Short
+  id(): Short
+  name(): String
+  winningNodeId(): Short
+  losingNodeId(): Short
+  nodeType(): LeagueNodeDefaultGroupEnum
+  scheduledTime(): Long
+  actualTime(): Long
+  seriesId(): Long
+  matches(): [MatchType]
+  teamOneId(): Int
+  teamOne(): TeamType
+  teamTwoId(): Int
+  teamTwo(): TeamType
+  teamOneWins(): Byte
+  teamTwoWins(): Byte
+  hasStarted(): Boolean
+  isCompleted(): Boolean
+  streamIds(): [Int]
+  streams(): [LeagueStreamType]
+
+type LeaguePrizePoolPercentageType
+  leagueId(): Int
+  index(): Byte
+  percentage(): Int
+
+type LeagueRegisteredPlayerType
+  leagueId(): Int
+  league(): LeagueType
+  teamId(): Int
+  radiantTeam(): TeamType
+  steamAccountId(): Long
+  steamAccount(): SteamAccountType
+
+type LeagueStatType
+  matchCount(): Int
+  radiantWinMatchCount(): Int
+  averageMatchDurationSeconds(): Int
+
+type LeagueStreamType
+  id(): Int
+  languageId(): LanguageEnum
+  name(): String
+  broadcastProvider(): Byte
+  streamUrl(): String
+  vodUrl(): String
+
+type LeagueTableHeroLanesObjectType
+  id(): Byte
+  matchCount(): Int!
+  matchWins(): Int!
+
+type LeagueTableHeroOverviewType
+  matchCount(): Int!
+  matchWins(): Int!
+  pickPhaseOne(): Int!
+  pickPhaseTwo(): Int!
+  pickPhaseThree(): Int!
+  banCount(): Int!
+  banPhaseOne(): Int!
+  banPhaseTwo(): Int!
+  banPhaseThree(): Int!
+
+type LeagueTableHeroPlayersObjectType
+  steamId(): Long!
+  matchCount(): Int!
+  matchWins(): Int!
+  imp(): Float!
+  kills(): Float!
+  deaths(): Float!
+  assists(): Float!
+  cs(): Float!
+  gpm(): Float!
+  xpm(): Float!
+  heal(): Float!
+  heroDamage(): Float!
+  towerDamage(): Float!
+  killContribution(): Float!
+
+type LeagueTableHeroStatsType
+  kills(): Float!
+  deaths(): Float!
+  assists(): Float!
+  cs(): Float!
+  gpm(): Float!
+  xpm(): Float!
+  heal(): Float!
+  heroDamage(): Float!
+  towerDamage(): Float!
+  killContribution(): Float!
+
+type LeagueTableHeroType
+  heroId(): Short
+  overview(): LeagueTableHeroOverviewType
+  stats(): LeagueTableHeroStatsType
+  heroes(): [LeagueTableHeroPlayersObjectType]
+  lanes(): [LeagueTableHeroLanesObjectType]
+
+type LeagueTablePlayerHeroesObjectType
+  heroId(): Int!
+  matchCount(): Int!
+  matchWins(): Int!
+  imp(): Int!
+
+type LeagueTablePlayerLanesObjectType
+  id(): Byte
+  matchCount(): Int!
+  matchWins(): Int!
+
+type LeagueTablePlayerOverviewType
+  points(): Float
+  earnings(): Float
+  seriesCount(): Int!
+  seriesWins(): Int!
+  matchCount(): Int!
+  matchWins(): Int!
+  imp(): Int!
+
+type LeagueTablePlayerStatsType
+  kills(): Float!
+  deaths(): Float!
+  assists(): Float!
+  cs(): Float!
+  gpm(): Float!
+  xpm(): Float!
+  heal(): Float!
+  heroDamage(): Float!
+  towerDamage(): Float!
+  killContribution(): Float!
+
+type LeagueTablePlayerType
+  steamAccountId(): Long
+  steamAccount(): SteamAccountType
+  overview(): LeagueTablePlayerOverviewType
+  stats(): LeagueTablePlayerStatsType
+  heroes(): [LeagueTablePlayerHeroesObjectType]
+  lanes(): [LeagueTablePlayerLanesObjectType]
+
+type LeagueTableTeamHeroesObjectType
+  heroId(): Int!
+  matchCount(): Int!
+  matchWins(): Int!
+  imp(): Decimal
+  banCount(): Int
+
+type LeagueTableTeamLanesObjectType
+  id(): Byte
+  matchCount(): Int!
+  matchWins(): Int!
+
+type LeagueTableTeamOverviewType
+  points(): Float
+  earnings(): Float
+  seriesCount(): Int!
+  seriesWins(): Int!
+  seriesDraws(): Int!
+  matchCount(): Int!
+  matchWins(): Int!
+  tmp(): Float
+
+type LeagueTableTeamStatsType
+  kills(): Float!
+  deaths(): Float!
+  assists(): Float!
+  cs(): Float!
+  gpm(): Float!
+  xpm(): Float!
+  heal(): Float!
+  heroDamage(): Float!
+  towerDamage(): Float!
+  duration(): Float!
+
+type LeagueTableTeamType
+  teamId(): Int
+  team(): TeamType
+  members(): [LeagueRegisteredPlayerType]
+  overview(): LeagueTableTeamOverviewType
+  stats(): LeagueTableTeamStatsType
+  heroes(): [LeagueTableTeamHeroesObjectType]
+  lanes(): [LeagueTableTeamLanesObjectType]
+
+type LeagueTableType
+  leagueId(): Int!
+  tableTeams(): [LeagueTableTeamType]
+  tableHeroes(): [LeagueTableHeroType]
+  tablePlayers(): [LeagueTablePlayerType]
+
+type LeagueType
+  id(): Int
+  name(): String
+  banner(): String
+  basePrizePool(): Int
+  stopSalesTime(): DateTime
+  tier(): LeagueTier
+  region(): LeagueRegion
+  private(): Boolean
+  freeToSpectate(): Boolean
+  startDateTime(): Long
+  endDateTime(): Long
+  tournamentUrl(): String
+  lastMatchDate(): Long
+  hasLiveMatches(): Boolean
+  prizePool(): Int
+  imageUri(): String
+  displayName(): String
+  description(): String
+  country(): String
+  venue(): String
+  isFollowed(): Boolean
+  nodeGroups(): [LeagueNodeGroupType]
+  liveMatches(): [MatchLiveType]
+  matches(request: LeagueMatchesRequestType!): [MatchType]
+  matchesGroupBy(request: PlayerMatchesGroupByRequestType!): [MatchGroupByType]
+  series(leagueStageTypeIds: [LeagueStage], seriesId: Int, teamId: Int, skip: Int, take: Int): [SeriesType]
+  tables(leagueStageTypeIds: [LeagueStage], calculateTypeId: TableCalculateEnum): LeagueTableType
+  battlePass(): LeagueBattlePassType
+  stats(leagueStageTypeIds: [LeagueStage]): LeagueStatType
+  prizePoolPercentages(): [LeaguePrizePoolPercentageType]
+  standings(): [TeamPrizeType]
+  streams(): [LeagueStreamType]
+
+type LiveEventMatchDireTideStompType
+  match(): DireTideCustomGameMatchType
+
+type LiveEventPlayerDireTideCandyScoredType
+  steamAccount(): SteamAccountType
+  match(): DireTideCustomGameMatchType
+  heroId(): Short
+  candyScored(): Short
+
+type LiveEventPlayerHeroAssistsType
+  steamAccount(): SteamAccountType
+  match(): MatchType
+  heroId(): Short
+  assistCount(): Byte
+
+type LiveEventPlayerHeroBuildingDamageType
+  steamAccount(): SteamAccountType
+  match(): MatchType
+  heroId(): Short
+  buildingDamage(): Int
+
+type LiveEventPlayerHeroDewardType
+  steamAccount(): SteamAccountType
+  match(): MatchType
+  heroId(): Short
+  dewardCount(): Byte
+
+type LiveEventPlayerHeroDotaPlusLevelType
+  steamAccount(): SteamAccountType
+  match(): MatchType
+  heroId(): Short
+  level(): Byte
+
+type LiveEventPlayerHeroExpPerMinuteType
+  steamAccount(): SteamAccountType
+  match(): MatchType
+  heroId(): Short
+  expPerMinute(): Short
+
+type LiveEventPlayerHeroGoldPerMinuteType
+  steamAccount(): SteamAccountType
+  match(): MatchType
+  heroId(): Short
+  goldPerMinute(): Short
+
+type LiveEventPlayerHeroHealingType
+  steamAccount(): SteamAccountType
+  match(): MatchType
+  heroId(): Short
+  healingAmount(): Int
+
+type LiveEventPlayerHeroHeroDamageType
+  steamAccount(): SteamAccountType
+  match(): MatchType
+  heroId(): Short
+  heroDamage(): Int
+
+type LiveEventPlayerHeroHighImpType
+  steamAccount(): SteamAccountType
+  match(): MatchType
+  heroId(): Short
+  imp(): Byte
+
+type LiveEventPlayerHeroItemPurchaseType
+  steamAccount(): SteamAccountType
+  match(): MatchType
+  heroId(): Short
+  itemId(): Short
+  itemCount(): Byte
+
+type LiveEventPlayerHeroKillsType
+  steamAccount(): SteamAccountType
+  match(): MatchType
+  heroId(): Short
+  killCount(): Byte
+
+type LiveEventPlayerHeroWinStreakType
+  steamAccount(): SteamAccountType
+  match(): MatchType
+  heroId(): Short
+  winStreakCount(): Byte
+
+type LiveEventPlayerRampageType
+  steamAccount(): SteamAccountType
+  match(): MatchType
+  heroId(): Short
+  rampageCount(): Byte
+
+type LiveEventPlayerRankUpType
+  steamAccount(): SteamAccountType
+  match(): MatchType
+  rank(): Byte
+
+type LiveEventPlayerWinStreakType
+  steamAccount(): SteamAccountType
+  match(): MatchType
+  winStreakCount(): Byte
+
+type LiveEventProPlayerLiveType
+  steamAccounts(): [SteamAccountType]
+  match(): MatchLiveType
+
+type LiveQuery
+  match(id: Long!, skipPlaybackDuration: Int): MatchLiveType
+  matches(request: MatchLiveRequestType): [MatchLiveType]
+
+type MatchGroupByIsLeagueType
+  isLeague(): Boolean
+  matchCount(): Int
+  winCount(): Int
+  avgImp(): Int
+  avgGoldPerMinute(): Int
+  avgExperiencePerMinute(): Int
+  avgKDA(): Float
+  avgKills(): Float
+  avgDeaths(): Float
+  avgAssists(): Float
+  avgTowerDamage(): Float
+  lastMatchDateTime(): Long
+  firstMatchDateTime(): Long
+
+type MatchGroupByLeagueIdType
+  leagueId(): Long
+  league(): LeagueType
+  matchCount(): Int
+  winCount(): Int
+  avgImp(): Int
+  avgGoldPerMinute(): Int
+  avgExperiencePerMinute(): Int
+  avgKDA(): Float
+  avgKills(): Float
+  avgDeaths(): Float
+  avgAssists(): Float
+  avgTowerDamage(): Float
+  lastMatchDateTime(): Long
+  firstMatchDateTime(): Long
+
+type MatchLiveBuildingDetailType
+  time(): Int!
+  indexId(): Int
+  type(): BuildingType
+  isAlive(): Boolean!
+  positionX(): Int
+  positionY(): Int
+  isRadiant(): Boolean
+  npcId(): Int
+
+type MatchLiveInsightType
+  teamOneVsWinCount(): Int!
+  teamTwoVsWinCount(): Int!
+  teamOneLeagueWinCount(): Int!
+  teamOneLeagueMatchCount(): Int!
+  teamTwoLeagueWinCount(): Int!
+  teamTwoLeagueMatchCount(): Int!
+  lastSeries(): [SeriesType]
+
+type MatchLivePickBanType
+  isPick(): Boolean!
+  heroId(): Short
+  order(): Int
+  bannedHeroId(): Short
+  isRadiant(): Boolean
+  baseWinRate(): Float
+  adjustedWinRate(): Float
+  letter(): PlusLetterType
+  positionValues(): [Float]
+  winRateValues(): [Float]
+  durationValues(): [Float]
+  position(): MatchPlayerPositionType
+
+type MatchLivePlaybackDataType
+  roshanEvents(): [MatchLiveRoshanDetailType]
+  buildingEvents(): [MatchLiveBuildingDetailType]
+  pickBans(): [MatchLivePickBanType]
+  radiantScore(): [MatchLiveTeamScoreDetailType]
+  direScore(): [MatchLiveTeamScoreDetailType]
+
+type MatchLivePlayerAssistDetailType
+  time(): Int!
+  positionX(): Int!
+  positionY(): Int!
+
+type MatchLivePlayerDeathDetailType
+  time(): Int!
+  positionX(): Int!
+  positionY(): Int!
+
+type MatchLivePlayerDenyDetailType
+  time(): Int!
+  positionX(): Int!
+  positionY(): Int!
+
+type MatchLivePlayerExperienceDetailType
+  time(): Int!
+  expPerMinute(): Int!
+
+type MatchLivePlayerGoldDetailType
+  time(): Int!
+  gold(): Int!
+  networth(): Int!
+  networthDifference(): Int!
+  goldPerMinute(): Int!
+
+type MatchLivePlayerImpDetailType
+  time(): Int!
+  imp(): Short!
+
+type MatchLivePlayerInventoryDetailType
+  time(): Int!
+  itemId0(): Short
+  itemId1(): Short
+  itemId2(): Short
+  itemId3(): Short
+  itemId4(): Short
+  itemId5(): Short
+  backpackId0(): Short
+  backpackId1(): Short
+  backpackId2(): Short
+
+type MatchLivePlayerKillDetailType
+  time(): Int!
+  positionX(): Int!
+  positionY(): Int!
+
+type MatchLivePlayerLastHitDetailType
+  time(): Int!
+  positionX(): Int!
+  positionY(): Int!
+
+type MatchLivePlayerLevelDetailType
+  time(): Int!
+  level(): Int!
+
+type MatchLivePlayerPositionDetailType
+  time(): Int!
+  x(): Int!
+  y(): Int!
+
+type MatchLivePlayerType
+  matchId(): Long
+  heroId(): Short
+  hero(): HeroType
+  name(): String
+  playerSlot(): Byte
+  steamAccountId(): Long
+  steamAccount(): SteamAccountType
+  isRadiant(): Boolean
+  numKills(): Byte
+  numDeaths(): Byte
+  numAssists(): Byte
+  leaverStatus(): Byte
+  numLastHits(): UShort
+  numDenies(): UShort
+  goldPerMinute(): UShort
+  experiencePerMinute(): UShort
+  level(): Byte
+  gold(): Int
+  goldSpent(): Int
+  heroDamage(): Int
+  towerDamage(): Int
+  itemId0(): Short
+  itemId1(): Short
+  itemId2(): Short
+  itemId3(): Short
+  itemId4(): Short
+  itemId5(): Short
+  backpackId0(): Short
+  backpackId1(): Short
+  backpackId2(): Short
+  playbackData(): MatchPlayerLivePlaybackDataType
+  networth(): Int
+  respawnTimer(): Short
+  ultimateCooldown(): Short
+  ultimateState(): Short
+  impPerMinute(): [MatchLivePlayerImpDetailType]
+  gameVersionId(): Short
+  baseWinRateValue(): Float
+  position(): MatchPlayerPositionType
+
+type MatchLiveRoshanDetailType
+  time(): Int
+  isAlive(): Boolean
+  respawnTimer(): Int
+
+type MatchLiveTeamScoreDetailType
+  time(): Int
+  score(): Short
+
+type MatchLiveType
+  matchId(): Long
+  radiantScore(): Byte
+  direScore(): Byte
+  leagueId(): Int
+  league(): LeagueType
+  delay(): Short
+  spectators(): Int
+  averageRank(): Int
+  buildingState(): Long
+  radiantLead(): Int
+  lobbyId(): Long
+  lobbyType(): LobbyTypeEnum
+  serverSteamId(): Long
+  gameTime(): Int
+  completed(): Boolean
+  isUpdating(): Boolean
+  isParsing(): Boolean
+  radiantTeamId(): Int
+  direTeamId(): Int
+  radiantTeam(): TeamType
+  direTeam(): TeamType
+  parseBeginGameTime(): Int
+  numHumanPlayers(): Byte
+  gameMode(): GameModeEnumType
+  playbackData(): MatchLivePlaybackDataType
+  gameState(): MatchLiveGameState
+  gameMinute(): Short
+  players(): [MatchLivePlayerType]
+  createdDateTime(): Long
+  modifiedDateTime(): Long
+  insight(): MatchLiveInsightType
+  winRateValues(): [Float]
+  durationValues(): [Float]
+  liveWinRateValues(): [MatchLiveWinRateDetailType]
+
+type MatchLiveWinRateDetailType
+  time(): Int!
+  winRate(): Float!
+
+type MatchPickBanGroupByType
+  heroId(): Short
+  matchCount(): Int
+  pickCount(): Int
+  banCount(): Int
+
+type MatchPlayerLivePlaybackDataType
+  positionEvents(): [MatchLivePlayerPositionDetailType]
+  goldEvents(): [MatchLivePlayerGoldDetailType]
+  levelEvents(): [MatchLivePlayerLevelDetailType]
+  killEvents(): [MatchLivePlayerKillDetailType]
+  deathEvents(): [MatchLivePlayerDeathDetailType]
+  assistEvents(): [MatchLivePlayerAssistDetailType]
+  csEvents(): [MatchLivePlayerLastHitDetailType]
+  denyEvents(): [MatchLivePlayerDenyDetailType]
+  experienceEvents(): [MatchLivePlayerExperienceDetailType]
+  inventoryEvents(): [MatchLivePlayerInventoryDetailType]
+
+type MatchPlayerType
+  matchId(): Long
+  match(): MatchType
+  playerSlot(): Byte
+  steamAccountId(): Long
+  steamAccount(): SteamAccountType
+  isRadiant(): Boolean
+  isVictory(): Boolean
+  heroId(): Short
+  gameVersionId(): Short
+  hero(): HeroType
+  kills(): Byte
+  deaths(): Byte
+  assists(): Byte
+  leaverStatus(): LeaverStatusEnum
+  numLastHits(): Short
+  numDenies(): Short
+  goldPerMinute(): Short
+  networth(): Int
+  experiencePerMinute(): Short
+  level(): Byte
+  gold(): Int
+  goldSpent(): Int
+  heroDamage(): Int
+  towerDamage(): Int
+  heroHealing(): Int
+  partyId(): Byte
+  isRandom(): Boolean
+  lane(): MatchLaneType
+  position(): MatchPlayerPositionType
+  streakPrediction(): Short
+  intentionalFeeding(): Boolean
+  role(): MatchPlayerRoleType
+  roleBasic(): MatchPlayerRoleType
+  imp(): Short
+  award(): MatchPlayerAward
+  item0Id(): Short
+  item1Id(): Short
+  item2Id(): Short
+  item3Id(): Short
+  item4Id(): Short
+  item5Id(): Short
+  backpack0Id(): Short
+  backpack1Id(): Short
+  backpack2Id(): Short
+  neutral0Id(): Short
+  behavior(): Short
+  stats(): MatchPlayerStatsType
+  playbackData(): MatchPlayerPlaybackDataType
+  heroAverage(): [HeroPositionTimeDetailType]
+  additionalUnit(): MatchPlayerAdditionalUnitType
+  dotaPlus(): HeroDotaPlusLeaderboardRankType
+  abilities(gameVerionId: Int): [PlayerAbilityType]
+  invisibleSeconds(): Int
+  dotaPlusHeroXp(): Int
+  variant(): Byte
+
+type MatchReplayUploadPickBanType
+  playerSlot(): Byte
+  isPick(): Boolean!
+  heroId(): Short
+  bannedHeroId(): Short
+  time(): Byte
+  isRadiant(): Boolean
+  order(): Byte
+  wasBannedSuccessfully(): Boolean!
+
+type MatchStatsPickBanType
+  isPick(): Boolean!
+  heroId(): Short
+  order(): Int
+  bannedHeroId(): Short
+  isRadiant(): Boolean
+  playerIndex(): Int
+  wasBannedSuccessfully(): Boolean
+  isCaptain(): Boolean
+  baseWinRate(): Byte
+  adjustedWinRate(): Byte
+  letter(): Int
+
+type MatchType
+  id(): Long
+  didRadiantWin(): Boolean
+  durationSeconds(): Int
+  startDateTime(): Long
+  endDateTime(): Long
+  towerStatusRadiant(): Int
+  towerStatusDire(): Int
+  barracksStatusRadiant(): Short
+  barracksStatusDire(): Short
+  clusterId(): Int
+  firstBloodTime(): Int
+  lobbyType(): LobbyTypeEnum
+  numHumanPlayers(): Int
+  gameMode(): GameModeEnumType
+  replaySalt(): Long
+  isStats(): Boolean
+  tournamentId(): Int
+  tournamentRound(): Short
+  actualRank(): Short
+  averageRank(): Short
+  averageImp(): Short
+  parsedDateTime(): Long
+  statsDateTime(): Long
+  leagueId(): Int
+  league(): LeagueType
+  radiantTeamId(): Int
+  radiantTeam(): TeamType
+  direTeamId(): Int
+  direTeam(): TeamType
+  seriesId(): Long
+  series(): SeriesType
+  gameVersionId(): Short
+  regionId(): Byte
+  sequenceNum(): Long
+  rank(): Int
+  bracket(): Byte
+  analysisOutcome(): MatchAnalysisOutcomeType
+  predictedOutcomeWeight(): Byte
+  players(steamAccountId: Long): [MatchPlayerType]
+  radiantNetworthLeads(): [Int]
+  radiantExperienceLeads(): [Int]
+  radiantKills(): [Int]
+  direKills(): [Int]
+  pickBans(): [MatchStatsPickBanType]
+  towerStatus(): [MatchStatsTowerReportType]
+  laneReport(): MatchStatsLaneReportType
+  winRates(): [Decimal]
+  predictedWinRates(): [Decimal]
+  chatEvents(): [MatchStatsChatEventType]
+  towerDeaths(): [MatchStatsTowerDeathType]
+  playbackData(): MatchPlaybackDataType
+  spectators(): [MatchPlayerSpectatorType]
+  bottomLaneOutcome(): LaneOutcomeEnums
+  midLaneOutcome(): LaneOutcomeEnums
+  topLaneOutcome(): LaneOutcomeEnums
+  didRequestDownload(): Boolean
+
+type PageLeaguesQuery
+  dpcPositionStats(): [LeagueDpcPositionStatObjectType]
+
+type PlayerDraftHeroHighlightType
+  lastPlayed(): Long
+  winCount(): Int
+  matchCount(): Int
+  impAllTime(): Int
+  mvpCountLastMonth(): Int
+  topCoreCountLastMonth(): Int
+  topSupportCountLastMonth(): Int
+  winCountLastMonth(): Int
+  matchCountLastMonth(): Int
+  impLastMonth(): Int
+  winCountLastSixMonths(): Int
+  matchCountLastSixMonths(): Int
+  impLastSixMonths(): Int
+
+type PlusDraftPlayerHeroObjectType
+  heroId(): Short
+  pickValue(): Decimal
+  winValues(): [Decimal]
+  score(): Float
+  letter(): PlusLetterType
+
+type PlusDraftPlayerType
+  slot(): Byte
+  position(): MatchPlayerPositionType
+  positionValues(): [Decimal]
+  heroes(): [PlusDraftPlayerHeroObjectType]
+
+type PlusDraftType
+  midOutcome(): Decimal
+  safeOutcome(): Decimal
+  offOutcome(): Decimal
+  winValues(): [Decimal]
+  durationValues(): [Decimal]
+  players(): [PlusDraftPlayerType]
